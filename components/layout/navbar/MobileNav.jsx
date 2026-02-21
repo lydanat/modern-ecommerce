@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, User, X } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import {
   Sheet,
   SheetContent,

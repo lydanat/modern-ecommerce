@@ -18,18 +18,33 @@ export const navLinks = [
 export function handleSmoothScroll(e, href, onDone) {
   if (href === "/") {
     e.preventDefault();
+
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Update URL without reload
+    window.history.pushState(null, "", "/");
+
     onDone?.();
     return;
   }
 
   if (href.startsWith("/#")) {
     e.preventDefault();
+
     const id = href.slice(2);
     const target = document.getElementById(id);
+
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
+
+      // Update URL hash (deep-linking support)
+      if (window.history && typeof window.history.pushState === "function") {
+        window.history.pushState(null, "", href);
+      } else {
+        window.location.hash = id;
+      }
     }
+
     onDone?.();
   }
 }

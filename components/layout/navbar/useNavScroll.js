@@ -8,14 +8,30 @@ export function useNavScroll(threshold = 20) {
   );
 
   useEffect(() => {
+    let frameId = null;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > threshold);
+      if (frameId !== null) return;
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+
+        const nextScrolled = window.scrollY > threshold;
+
+        setScrolled((prevScrolled) =>
+          prevScrolled === nextScrolled ? prevScrolled : nextScrolled
+        );
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
     };
   }, [threshold]);
 
