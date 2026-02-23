@@ -1,4 +1,4 @@
-import LandingPage from "@/components/LandingPage";
+import LandingPage from "@/components/views/LandingPage";
 
 export const metadata = {
   title: "BRAND — Premium Clothing",
