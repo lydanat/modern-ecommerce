@@ -3,14 +3,12 @@
 import { useState, useEffect } from "react";
 
 export function useNavScroll(threshold = 20) {
-  const [scrolled, setScrolled] = useState(
-    () => typeof window !== "undefined" && window.scrollY > threshold
-  );
+  const [scrolled, setScrolled] = useState(false); // 🔥 ALWAYS same on server & first client render
 
   useEffect(() => {
     let frameId = null;
 
-    const handleScroll = () => {
+    const update = () => {
       if (frameId !== null) return;
 
       frameId = window.requestAnimationFrame(() => {
@@ -18,16 +16,19 @@ export function useNavScroll(threshold = 20) {
 
         const nextScrolled = window.scrollY > threshold;
 
-        setScrolled((prevScrolled) =>
-          prevScrolled === nextScrolled ? prevScrolled : nextScrolled
+        setScrolled((prev) =>
+          prev === nextScrolled ? prev : nextScrolled
         );
       });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // run once after mount to sync state
+    update();
+
+    window.addEventListener("scroll", update, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", update);
 
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId);
