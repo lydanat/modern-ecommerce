@@ -1,0 +1,1 @@
+export const ALL_SIZES = ["S", "M", "L", "XL", "XXL"];

@@ -1,50 +1,45 @@
 export const navLinks = [
-  { label: "Home",    href: "/" },
-  { label: "Product", href: "/#product" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Home",    href: "/",        section: null },
+  { label: "Product", href: "/product", section: null },
 ];
 
 /**
  * handleSmoothScroll
  *
- * Intercepts clicks on anchor links (href starting with "/#") and uses
- * the native scrollIntoView API instead of a hard page reload.
- *
- * @param {React.MouseEvent} e       - The click event (used to preventDefault).
- * @param {string}           href    - The link's href value.
- * @param {Function}         onDone  - Optional callback fired after scroll starts
- *                                     (used by MobileNav to close the Sheet drawer).
+ * - On landing page ("/"):  scrolls to top for Home, scrolls to section for others
+ * - On any other page:      lets Next.js navigate normally (no preventDefault)
  */
 export function handleSmoothScroll(e, href, onDone) {
+  const isOnLandingPage = window.location.pathname === "/";
+
+  // "Home" — always scroll to top if already on "/", else navigate
   if (href === "/") {
-    e.preventDefault();
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Update URL without reload
-    window.history.pushState(null, "", "/");
-
+    if (isOnLandingPage) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "/");
+    }
+    // else: let Next.js Link handle navigation normally
     onDone?.();
     return;
   }
 
+  // Anchor links like "/#contact" — only intercept on landing page
   if (href.startsWith("/#")) {
-    e.preventDefault();
-
-    const id = href.slice(2);
-    const target = document.getElementById(id);
-
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-
-      // Update URL hash (deep-linking support)
-      if (window.history && typeof window.history.pushState === "function") {
+    if (isOnLandingPage) {
+      e.preventDefault();
+      const id = href.slice(2);
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
         window.history.pushState(null, "", href);
-      } else {
-        window.location.hash = id;
       }
     }
-
+    // else: let Next.js navigate to "/" first, anchor will resolve there
     onDone?.();
+    return;
   }
+
+  // Normal page links (e.g. "/product") — just close drawer if open
+  onDone?.();
 }

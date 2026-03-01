@@ -1,37 +1,13 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRef, useState, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay, Pagination } from "swiper/modules";
+import { ArrowDown, ArrowRight } from "lucide-react";
+import { SLIDES } from "@/constants/slides"
 
-const SLIDES = [
-  {
-    id: 1,
-    image:   "/assets/hero1.jpg",
-    eyebrow: "New Arrival — 2025",
-    line1:   "Wear the",
-    line2:   "Silence",
-    sub:     "Minimalist forms. Maximum presence.",
-  },
-  {
-    id: 2,
-    image:   "/assets/hero2.jpg",
-    eyebrow: "Core Essentials",
-    line1:   "Effortless",
-    line2:   "Every Day",
-    sub:     "Crafted for the way you actually live.",
-  },
-  {
-    id: 3,
-    image:   "/assets/hero3.jpg",
-    eyebrow: "Limited Drop",
-    line1:   "Bold Moves",
-    line2:   "Only",
-    sub:     "Statement pieces for the ones who lead.",
-  },
-];
 
 export default function HeroSlider() {
   
@@ -80,7 +56,7 @@ export default function HeroSlider() {
       </Swiper>
 
       <div
-        className="absolute inset-0 z-10 pointer-events-none bg-[linear-gradient(to_top,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.22)_45%,rgba(0,0,0,0.38)_100%),linear-gradient(to_right,rgba(0,0,0,0.45)_0%,transparent_60%)]"
+        className="absolute inset-0 z-10 pointer-events-none bg-[linear-gradient(to_top,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.22)_45%,rgba(0,0,0,0.38)_100%),linear-gradient(to_right,rgba(0,0,0,0.45)_0%,transparent_50%)]"
       />
 
       <div className="absolute inset-0 z-20 flex flex-col justify-end pointer-events-none">
@@ -90,7 +66,6 @@ export default function HeroSlider() {
 
               {/* Eyebrow */}
               <div className="flex items-center gap-3 mb-5 animate-hero-eyebrow">
-                {/* Divider line — expands left-to-right, delayed slightly */}
                 <span
                   className="inline-block h-px w-8 bg-white/60 origin-left animate-hero-divider"
                   style={{ animationDelay: "0.05s" }}
@@ -128,59 +103,34 @@ export default function HeroSlider() {
 
               {/* CTA row */}
               <div
-                className="flex items-center gap-5 pointer-events-auto animate-hero-cta"
+                className="flex flex-col md:flex-row md:items-center item-start justify-start md:justify-start gap-2 md:gap-3 pointer-events-auto animate-hero-cta text-center md:text-left"
                 style={{ animationDelay: "0.65s" }}
               >
-
-                {/* Primary — solid white pill */}
+                {/* CTA */}
                 <Link
                   href="/product"
-                  className="group inline-flex items-center gap-2.5 bg-white rounded-full px-7 py-3.5 transition-all duration-300 hover:bg-white/90 active:scale-[0.97]"
+                  className="group flex justify-center items-center gap-2 bg-white rounded-full px-7 py-3 transition-all duration-300 hover:bg-white/90 active:scale-[0.97] w-max"
                 >
-                  <span className="font-sans text-black font-medium text-xs tracking-widest uppercase">
+                  <span className="font-sans text-black font-medium text-xs tracking-widest uppercase text-center">
                     View All Products
                   </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14" height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="black"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="transition-transform duration-300 group-hover:translate-x-0.5"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  <ArrowRight className="w-4 h-4 text-black"/>
                 </Link>
 
-                {/* Secondary — ghost text link */}
+                {/* CTA Explore */}
                 <button
                   onClick={() =>
                     document.getElementById("product")?.scrollIntoView({ behavior: "smooth" })
                   }
-                  className="inline-flex items-center gap-2 font-sans text-white/70 text-xs tracking-widest uppercase hover:text-white transition-colors duration-200"
+                  className="hidden md:flex justify-center items-center gap-1.5 font-sans text-white/70 text-xs tracking-widest uppercase hover:text-white transition-colors duration-200 w-max"
                 >
                   Explore
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="13" height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 5v14M5 12l7 7 7-7" />
-                  </svg>
+                  <ArrowDown className="w-3 h-3 text-white/70"/>
                 </button>
-
               </div>
             </div>
 
-            {/* ── RIGHT: Slide counter — desktop only ── */}
+            {/* Slide counter */}
             <div className="hidden lg:flex flex-col items-end gap-1 pb-1 pointer-events-auto">
               <span className="font-sans font-light text-white text-[2.8rem] leading-none tabular-nums tracking-tight">
                 {String(activeIndex + 1).padStart(2, "0")}
@@ -195,15 +145,14 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* ── Pagination dots (styled in globals.css — Swiper classes only) ── */}
+      {/* Pagination */}
       <div className="hero-pagination absolute bottom-8 left-0 right-0 z-30" />
 
-      {/* ── Scroll indicator — hidden on mobile ── */}
+      {/* Scroll indicator */}
       <div className="absolute bottom-10 right-6 sm:right-10 lg:right-16 z-30 hidden sm:flex flex-col items-center gap-2">
         <span
           className="font-sans text-white/40 text-[0.65rem] tracking-[0.18em] uppercase"
           style={{ writingMode: "vertical-rl" }}
-          // writingMode is not a Tailwind utility — no equivalent class exists
         >
           Scroll
         </span>

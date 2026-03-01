@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export function useNavScroll(threshold = 20) {
-  const [scrolled, setScrolled] = useState(false); // 🔥 ALWAYS same on server & first client render
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     let frameId = null;
