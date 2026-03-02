@@ -9,8 +9,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* @custom-variant dark (&:is(.dark *)); */
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -132,27 +130,10 @@
   }
 }
 
-/*
-  globals.css — only third-party overrides live here.
-
-  Rule: If Tailwind can express it, use Tailwind.
-  This file exists solely because Swiper injects its own CSS classes
-  (.swiper-pagination-bullet etc.) that Tailwind cannot target directly
-  without a plugin. Everything else is in tailwind.config.js or inline.
-*/
-
-/* ── Swiper crossfade speed ─────────────────────────────────────────
-   Swiper's EffectFade uses its own transition on .swiper-slide.
-   We override the duration here because Tailwind cannot target
-   Swiper's internal generated classes.                               */
 .hero-swiper .swiper-slide {
   transition: opacity 1.2s ease !important;
 }
 
-/* ── Custom pill pagination dots ────────────────────────────────────
-   Swiper generates .swiper-pagination-bullet and
-   .swiper-pagination-bullet-active at runtime — not reachable via
-   Tailwind utility classes on our JSX elements.                      */
 .hero-pagination {
   display: flex;
   gap: 6px;

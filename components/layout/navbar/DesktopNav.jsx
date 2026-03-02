@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { User } from "lucide-react";
 import {
   NavigationMenu,
@@ -14,15 +13,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { navLinks, handleSmoothScroll } from "./navConfig";
 
-
-export default function DesktopNav({ scrolled }) {
-
-  const textColor = scrolled ? "text-neutral-800" : "text-white";
-  const hoverBg   = scrolled ? "hover:bg-neutral-100" : "hover:bg-white/10";
+export default function DesktopNav({ scrolled, dark = false }) {
+  const isDark    = dark || scrolled;
+  const textColor = isDark ? "text-neutral-800" : "text-white";
+  const hoverBg   = isDark ? "hover:bg-neutral-100" : "hover:bg-white/10";
 
   return (
     <div className="hidden lg:grid grid-cols-3 items-center w-full h-full">
 
+      {/* Left: nav links */}
       <div className="flex items-center">
         <NavigationMenu>
           <NavigationMenuList className="gap-1">
@@ -34,9 +33,15 @@ export default function DesktopNav({ scrolled }) {
                     onClick={(e) => handleSmoothScroll(e, link.href)}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent hover:bg-transparent focus:bg-transparent",
-                      "text-sm font-medium tracking-wide transition-colors duration-300",
-                      textColor
+                      "relative bg-transparent focus:bg-transparent transition-colors duration-300",
+                      isDark ? "text-neutral-800" : "text-white", // text color based on scroll
+                      // underline animation
+                      "after:absolute after:left-0 after:-bottom-0.5 after:h-[1.5px] after:w-0 after:bg-current",
+                      "after:transition-all after:duration-300",
+                      "hover:after:w-full",
+                      "bg-transparent! !hover:bg-transparent shadow-none! rounded-none!",
+                      // force white text on hover when not scrolled
+                      !isDark && "hover:text-white"
                     )}
                   >
                     {link.label}
@@ -48,37 +53,25 @@ export default function DesktopNav({ scrolled }) {
         </NavigationMenu>
       </div>
 
+      {/* Center: logo */}
       <div className="flex justify-center">
-        <Link
-          href="/"
-          onClick={(e) => handleSmoothScroll(e, "/")}
-          className={cn(
-            "text-2xl font-black tracking-[0.18em] uppercase transition-colors duration-300",
-            scrolled ? "text-black" : "text-white"
-          )}
-        >
-          <Image
-            src="/assets/logo.png"
-            alt="logo"
-            width={60}
-            height={60}
-            />
+        <Link href="/" className="transition-opacity duration-300 hover:opacity-80">
+          <span className={cn("font-serif text-white text-2xl font-semibold tracking-[0.12em] uppercase", textColor, hoverBg)}>
+            Flash Of Build
+          </span>
         </Link>
       </div>
 
+      {/* Right: user icon */}
       <div className="flex justify-end">
         <Button
           variant="ghost"
           size="icon"
           aria-label="My account"
           asChild
-          className={cn(
-            "rounded-full transition-colors duration-300",
-            textColor,
-            hoverBg
-          )}
+          className={cn("rounded-full transition-colors duration-300", textColor, hoverBg)}
         >
-          <Link href="/login">
+          <Link href="/admin">
             <User className="h-5 w-5" />
           </Link>
         </Button>

@@ -1,7 +1,7 @@
 import LandingPage from "@/components/views/LandingPage";
 
 export const metadata = {
-  title: "BRAND — Premium Clothing",
+  title: "Flash of Build",
   description: "Boxy, Oversized, Slim & Tank Top styles. Shop the latest collection.",
 };
 
