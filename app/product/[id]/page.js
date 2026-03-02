@@ -5,6 +5,6 @@ export const metadata = {
 };
 
 export default async function Page({ params }) {
-  const { id } = await params;
+  const { id } = params;
   return <ProductDetail productId={id} />;
 }
