@@ -75,16 +75,16 @@ export default function AddProductDialog({ onSuccess }) {
     <>
       <Button
         onClick={handleOpen}
-        className="h-9 rounded-sm bg-neutral-900 hover:bg-black text-white font-sans text-[0.75rem] tracking-widest uppercase gap-2 px-5 transition-all duration-200"
+        className="h-9 rounded-lg bg-neutral-900 hover:bg-black text-white font-sans text-[0.75rem] tracking-widest uppercase gap-2 px-5 transition-all duration-200"
       >
         <Plus size={13} />
         Add Product
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border-neutral-100">
+        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto rounded-lg">
           <DialogHeader>
-            <DialogTitle className="font-serif text-lg font-semibold">Add New Product</DialogTitle>
+            <DialogTitle className="text-lg font-semibold">Add New Product</DialogTitle>
           </DialogHeader>
 
           <ProductForm form={form} setForm={setForm} />
@@ -97,14 +97,14 @@ export default function AddProductDialog({ onSuccess }) {
 
           <DialogFooter className="gap-2 pt-2">
             <DialogClose asChild>
-              <Button variant="outline" className="rounded-full h-9 px-5 font-sans text-xs border-neutral-200">
+              <Button variant="outline" className="rounded-lg h-9 px-5 font-sans text-xs border-neutral-200">
                 Cancel
               </Button>
             </DialogClose>
             <Button
               onClick={handleAdd}
               disabled={saving}
-              className="rounded-full h-9 px-5 bg-neutral-900 hover:bg-black text-white font-sans text-xs tracking-wide"
+              className="rounded-lg h-9 px-5 bg-neutral-900 hover:bg-black text-white font-sans text-xs tracking-wide"
             >
               {saving ? "Saving…" : "Add Product"}
             </Button>

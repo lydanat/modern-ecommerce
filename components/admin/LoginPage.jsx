@@ -121,7 +121,7 @@ export default function AdminLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="mt-1 h-10 w-full rounded-full bg-neutral-900 hover:bg-black text-white font-sans text-[0.78rem] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
+                className="mt-1 h-10 w-full rounded-lg bg-neutral-900 hover:bg-black text-white font-sans text-[0.78rem] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">

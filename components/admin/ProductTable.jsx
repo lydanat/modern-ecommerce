@@ -39,7 +39,7 @@ export default function ProductTable() {
   const [editOpen,     setEditOpen]     = useState(false);
   const [deleteOpen,   setDeleteOpen]   = useState(false);
 
-  // ── Data ──────────────────────────────────────────────────
+  // Data
   async function fetchProducts() {
     setLoading(true);
     const { data, error } = await supabase
@@ -67,7 +67,7 @@ export default function ProductTable() {
     return () => { cancelled = true; };
   }, []);
 
-  // ── Pagination ─────────────────────────────────────────────
+  // Pagination
   const totalPages = Math.ceil(products.length / PER_PAGE);
   const paginated  = products.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
@@ -92,7 +92,7 @@ export default function ProductTable() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-serif text-xl font-semibold text-neutral-900">Products</h1>
+          <h1 className="text-xl font-semibold text-neutral-900">Products</h1>
           <p className="font-sans text-xs text-neutral-400 mt-0.5 tracking-wide">
             {products.length} {products.length === 1 ? "item" : "items"} in inventory
           </p>
@@ -101,7 +101,7 @@ export default function ProductTable() {
       </div>
 
       {/* Table card */}
-      <div className="bg-white rounded-xl border border-neutral-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-lg border border-neutral-100 shadow-sm overflow-hidden">
 
         {/* Skeleton */}
         {loading && <ProductTableSkeleton rows={6} />}
@@ -122,15 +122,15 @@ export default function ProductTable() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-neutral-100 bg-neutral-50/50">
-                  {["Image", "Type", "Name", "Price", "Status", "Description", "Colors", "Sizes", ""].map((h) => (
-                    <th key={h} className="text-left px-4 py-3 font-sans text-[0.65rem] tracking-[0.15em] uppercase text-neutral-400 font-medium whitespace-nowrap">
+                <tr className="border-b border-neutral-100 bg-neutral-900">
+                  {["Image", "Type", "Name", "Price", "Status", "Description", "Colors", "Sizes", "Action"].map((h) => (
+                    <th key={h} className="text-left px-6 py-4 font-sans text-[0.65rem] tracking-[0.15em] uppercase text-white font-medium whitespace-nowrap">
                       {h}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-50">
+              <tbody className="divide-y divide-neutral-60">
                 {paginated.map((product) => (
                   <tr key={product.id} className="hover:bg-neutral-50/60 transition-colors duration-100 group">
 
@@ -156,7 +156,7 @@ export default function ProductTable() {
 
                     {/* Name */}
                     <td className="px-4 py-3">
-                      <p className="font-serif text-sm text-neutral-900 whitespace-nowrap max-w-40 truncate">
+                      <p className="text-sm text-neutral-900 whitespace-nowrap max-w-40 truncate">
                         {product.product_name}
                       </p>
                     </td>
@@ -215,13 +215,15 @@ export default function ProductTable() {
                     <td className="px-4 py-3">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
+                          <div className="flex items-center justify-center">
                           <Button variant="ghost" size="icon"
-                            className="w-7 h-7 rounded-md text-neutral-300 hover:text-neutral-700 hover:bg-neutral-100 opacity-0 group-hover:opacity-100 transition-all duration-150"
+                            className="w-7 h-7 rounded-lg items-center justify-center flex text-neutral-300 hover:text-neutral-700 hover:bg-neutral-100 transition-all border-2 duration-150"
                           >
                             <MoreHorizontal size={14} />
                           </Button>
+                          </div>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-36 rounded-xl border-neutral-100 shadow-md font-sans text-xs">
+                        <DropdownMenuContent align="end" className="w-36 rounded-lg border-neutral-100 shadow-md font-sans text-xs">
                           <DropdownMenuItem onClick={() => openEdit(product)} className="gap-2 text-neutral-700 cursor-pointer rounded-lg">
                             <Pencil size={12} /> Edit
                           </DropdownMenuItem>
@@ -241,7 +243,7 @@ export default function ProductTable() {
         {/* Pagination */}
         {!loading && totalPages > 1 && (
           <div className="border-t border-neutral-100 px-4 py-3 flex items-center justify-between">
-            <p className="font-sans text-xs text-neutral-400">Page {currentPage} of {totalPages}</p>
+            <p className="font-sans w-20 text-xs text-neutral-400">Page {currentPage} of {totalPages}</p>
             <Pagination>
               <PaginationContent>
                 <PaginationItem>

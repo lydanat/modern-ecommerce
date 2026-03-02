@@ -91,9 +91,9 @@ export default function DeleteProductDialog({ product, open, onOpenChange, onSuc
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm rounded-2xl border-neutral-100">
+      <DialogContent className="max-w-sm rounded-lg border-neutral-100">
         <DialogHeader>
-          <DialogTitle className="font-serif text-lg font-semibold">Delete Product</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">Delete Product</DialogTitle>
           <DialogDescription asChild>
             <div className="font-sans text-sm text-neutral-500 leading-relaxed pt-1 flex flex-col gap-2">
               <p>
@@ -112,7 +112,7 @@ export default function DeleteProductDialog({ product, open, onOpenChange, onSuc
 
         <DialogFooter className="gap-2 pt-2">
           <DialogClose asChild>
-            <Button variant="outline" className="rounded-full h-9 px-5 font-sans text-xs border-neutral-200">
+            <Button variant="outline" className="rounded-lg h-9 px-5 font-sans text-xs border-neutral-200">
               Cancel
             </Button>
           </DialogClose>
@@ -120,7 +120,7 @@ export default function DeleteProductDialog({ product, open, onOpenChange, onSuc
             onClick={handleDelete}
             disabled={deleting}
             variant="destructive"
-            className="rounded-full h-9 px-5 font-sans text-xs tracking-wide"
+            className="rounded-lg h-9 px-5 font-sans text-xs tracking-wide"
           >
             {deleting ? "Deleting…" : "Delete"}
           </Button>

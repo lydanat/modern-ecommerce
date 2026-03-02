@@ -158,7 +158,7 @@ function ImageUploader({ images, onChange }) {
         <div className="fixed inset-0 z-100 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setPreviewIndex(null)}
         >
-          <div className="relative bg-white rounded-2xl overflow-hidden shadow-2xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+          <div className="relative bg-white rounded-sm overflow-hidden shadow-2xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
             <div className="relative w-full aspect-3/4 bg-neutral-100">
               <Image src={images[previewIndex]} alt={`Preview ${previewIndex + 1}`} fill className="object-cover" sizes="384px" />
               {previewIndex > 0 && (
@@ -175,11 +175,11 @@ function ImageUploader({ images, onChange }) {
             <div className="flex items-center justify-between px-4 py-2.5 border-t border-neutral-100">
               <div className="flex items-center gap-2">
                 <button type="button" disabled={previewIndex === 0} onClick={() => moveImage(previewIndex, previewIndex - 1)}
-                  className="w-7 h-7 rounded-md border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  className="w-7 h-7 rounded-sm border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 ><ChevronLeft size={12} /></button>
                 <span className="font-sans text-xs text-neutral-400 w-10 text-center">{previewIndex + 1} / {images.length}</span>
                 <button type="button" disabled={previewIndex === images.length - 1} onClick={() => moveImage(previewIndex, previewIndex + 1)}
-                  className="w-7 h-7 rounded-md border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  className="w-7 h-7 rounded-sm border border-neutral-200 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 ><ChevronRight size={12} /></button>
                 {previewIndex === 0 && (
                   <span className="font-sans text-[0.6rem] tracking-widest uppercase bg-neutral-900 text-white px-2 py-0.5 rounded-full ml-1">Main</span>
@@ -190,15 +190,15 @@ function ImageUploader({ images, onChange }) {
                   className="flex items-center gap-1 font-sans text-xs text-red-400 hover:text-red-600 transition-colors"
                 ><X size={11} /> Remove</button>
                 <button type="button" onClick={() => setPreviewIndex(null)}
-                  className="w-7 h-7 rounded-md border border-neutral-200 flex items-center justify-center text-neutral-400 hover:bg-neutral-50 transition-all"
+                  className="w-7 h-7 rounded-sm border border-neutral-200 flex items-center justify-center text-neutral-400 hover:bg-neutral-50 transition-all"
                 ><X size={13} /></button>
               </div>
             </div>
             {images.length > 1 && (
-              <div className="flex gap-1.5 px-4 pb-3 overflow-x-auto">
+              <div className="flex gap-1.5 px-4 pt-2 pb-4 overflow-x-auto">
                 {images.map((url, i) => (
                   <button key={i} type="button" onClick={() => setPreviewIndex(i)}
-                    className={`relative shrink-0 w-10 h-12 rounded overflow-hidden transition-all duration-150 ${i === previewIndex ? "ring-2 ring-neutral-900 opacity-100" : "opacity-40 hover:opacity-70"}`}
+                    className={`relative shrink-0 w-10 h-12 overflow-hidden transition-all duration-150 ${i === previewIndex ? "ring-2 ring-neutral-400 opacity-100" : "opacity-40 hover:opacity-70"}`}
                   ><Image src={url} alt="" fill className="object-cover" sizes="40px" /></button>
                 ))}
               </div>
