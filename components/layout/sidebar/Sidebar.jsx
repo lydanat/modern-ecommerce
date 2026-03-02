@@ -17,10 +17,10 @@ import {
 export default function AdminSidebar() {
   const pathname = usePathname();
 
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    window.location.href = "/admin";
-  }
+async function handleLogout() {
+  await supabase.auth.signOut();
+  window.location.replace("/");
+}
 
   const navItems = [
     { href: "/admin/dashboard", label: "Products", icon: Package },
