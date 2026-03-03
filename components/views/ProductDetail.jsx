@@ -24,7 +24,7 @@ function RelatedCard({ product }) {
   const mainImage = product.image_urls?.[0] ?? null;
   return (
     <Link href={`/product/${product.id}`} className="group flex flex-col shrink-0 w-45 sm:w-55">
-      <div className="relative w-full aspect-3/4 overflow-hidden bg-neutral-100 rounded-sm">
+      <div className="relative w-full aspect-3/4 overflow-hidden bg-neutral-100">
         {mainImage ? (
           <Image
             src={mainImage}
@@ -134,7 +134,7 @@ export default function ProductDetail({ productId }) {
     <>
       <Navbar dark />
 
-      <div className="min-h-screen bg-white pt-24 pb-18 px-2 sm:px-4 lg:px-6">
+      <div className="min-h-screen bg-white pt-24 pb-18 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
 
           {/* ── Main detail ── */}

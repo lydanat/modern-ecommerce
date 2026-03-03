@@ -28,7 +28,7 @@ export default function ProductPreview() {
   }, []);
 
   return (
-    <section id="product" className="w-full bg-white py-24 px-2 sm:px-4 lg:px-6">
+    <section id="product" className="w-full bg-white py-24 px-6 sm:px-10 lg:px-16">
       <div className="max-w-7xl mx-auto">
 
         {/* Section header */}
