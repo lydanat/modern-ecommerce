@@ -76,9 +76,10 @@ export default function ProductDetail({ productId }) {
         .from("products")
         .select("*")
         .eq("id", productId)
-        .single();
+        .maybeSingle();
 
       if (error || !data) {
+        console.log("Product fetch error:", error);
         setNotFound(true);
         setLoading(false);
         return;
@@ -95,6 +96,7 @@ export default function ProductDetail({ productId }) {
         .order("created_at", { ascending: false })
         .limit(10);
 
+      if (relatedError) console.log("Related products fetch error:", relatedError);
       if (related) setRelatedProducts(related);
       setLoading(false);
     }
