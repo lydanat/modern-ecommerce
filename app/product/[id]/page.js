@@ -1,10 +1,11 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import ProductDetail from "@/components/views/ProductDetail";
 
-export const metadata = {
-  title: "Product | Flash of Build",
-};
+export default function Page() {
+  const params = useParams();
+  const productId = params.id;
 
-export default async function Page({ params }) {
-  const { id } = params;
-  return <ProductDetail productId={id} />;
+  return <ProductDetail productId={productId} />;
 }

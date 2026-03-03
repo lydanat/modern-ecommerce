@@ -88,7 +88,7 @@ export default function ProductDetail({ productId }) {
       setProduct(data);
 
       /* Fetch related — same type, exclude current */
-      const { data: related } = await supabase
+      const { data: related, error: relatedError } = await supabase
         .from("products")
         .select("id, product_name, product_type, price, image_urls")
         .neq("id", productId)
@@ -96,8 +96,13 @@ export default function ProductDetail({ productId }) {
         .order("created_at", { ascending: false })
         .limit(10);
 
-      if (relatedError) console.log("Related products fetch error:", relatedError);
-      if (related) setRelatedProducts(related);
+      if (relatedError) {
+        console.log("Related products fetch error:", relatedError);
+      }
+
+      if (related) {
+        setRelatedProducts(related);
+      }
       setLoading(false);
     }
 
