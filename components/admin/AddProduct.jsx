@@ -82,7 +82,13 @@ export default function AddProductDialog({ onSuccess }) {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto rounded-lg">
+        <DialogContent className="
+          w-[calc(100%-2rem)] mx-4 my-4
+          sm:mx-auto sm:w-full sm:max-w-xl
+          max-h-[90dvh] overflow-y-auto
+          rounded-lg border border-neutral-100
+          p-5 sm:p-6
+          shadow-xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">Add New Product</DialogTitle>
           </DialogHeader>
