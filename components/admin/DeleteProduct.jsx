@@ -92,11 +92,12 @@ export default function DeleteProductDialog({ product, open, onOpenChange, onSuc
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="
-        w-[calc(100%-2rem)] mx-4 my-4
-        sm:mx-auto sm:w-full sm:max-w-sm
-        rounded-lg border border-neutral-100
-        p-5 sm:p-6
-        shadow-xl">
+        left-[50%]! top-[50%]! translate-x-[-50%]! translate-y-[-50%]!
+        w-[calc(100%-2rem)]
+        sm:w-full sm:max-w-sm
+        rounded-lg
+        shadow-xl
+        p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">Delete Product</DialogTitle>
           <DialogDescription asChild>
