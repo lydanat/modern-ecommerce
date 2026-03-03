@@ -92,7 +92,7 @@ export default function ProductsPage() {
     <>
       <Navbar dark />
 
-      <div className="min-h-screen bg-white py-24 px-2 sm:px-4 lg:px-6">
+      <div className="min-h-screen bg-white py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
 
           {/* Header */}
