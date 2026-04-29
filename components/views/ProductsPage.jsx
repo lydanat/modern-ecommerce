@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { formatType } from "@/constants/productTypes";
 import {
   Pagination,
@@ -23,8 +24,12 @@ const PER_PAGE = 12;
 
 /* ── Page ── */
 export default function ProductsPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [allProducts,   setAllProducts]   = useState([]);
   const [activeFilter,  setActiveFilter]  = useState("All");
+  const [searchQuery,   setSearchQuery]   = useState(() => searchParams.get("q") ?? "");
   const [currentPage,   setCurrentPage]   = useState(1);
   const [loading,       setLoading]       = useState(true);
 
@@ -65,17 +70,49 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const queryFromUrl = searchParams.get("q") ?? "";
+    setSearchQuery(queryFromUrl);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const currentQuery = searchParams.get("q") ?? "";
+    const nextQuery = searchQuery.trim();
+
+    if (currentQuery === nextQuery) return;
+
+    const nextUrl = nextQuery ? `${pathname}?q=${encodeURIComponent(nextQuery)}` : pathname;
+    router.replace(nextUrl, { scroll: false });
+  }, [pathname, router, searchParams, searchQuery]);
+
   /* Reset to page 1 whenever filter changes — deferred to avoid sync setState warning */
   useEffect(() => {
     const t = setTimeout(() => setCurrentPage(1), 0);
     return () => clearTimeout(t);
-  }, [activeFilter]);
+  }, [activeFilter, searchQuery]);
 
-  const filtered = activeFilter === "All"
+  const typeFiltered = activeFilter === "All"
     ? allProducts
     : allProducts.filter((p) =>
         p.product_type?.trim().toLowerCase() === activeFilter.trim().toLowerCase()
       );
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const filtered = typeFiltered.filter((product) => {
+    if (!normalizedSearch) return true;
+
+    const name = (product.product_name ?? "").toLowerCase();
+    const type = (product.product_type ?? "").toLowerCase();
+    const priceNumber = Number(product.price);
+    const price = Number.isFinite(priceNumber)
+      ? [priceNumber.toFixed(2), String(priceNumber)]
+      : [String(product.price ?? "")];
+
+    return [name, type, ...price].some((value) =>
+      value.includes(normalizedSearch)
+    );
+  });
 
   const totalPages  = Math.ceil(filtered.length / PER_PAGE);
   const paginated   = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
@@ -90,7 +127,12 @@ export default function ProductsPage() {
 
   return (
     <>
-      <Navbar dark />
+      <Navbar
+        dark
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search name, type, price..."
+      />
 
       <div className="min-h-screen bg-white py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -132,6 +174,7 @@ export default function ProductsPage() {
             <p className="font-sans text-xs tracking-wide text-neutral-400 mb-8">
               {filtered.length} {filtered.length === 1 ? "item" : "items"}
               {activeFilter !== "All" ? ` in ${formatType(activeFilter)}` : ""}
+              {normalizedSearch ? ` matching \"${searchQuery.trim()}\"` : ""}
             </p>
           )}
 
@@ -153,6 +196,14 @@ export default function ProductsPage() {
                   className="mt-2 font-sans text-[0.75rem] tracking-[0.12em] uppercase px-5 py-2.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-200"
                 >
                   View All
+                </button>
+              )}
+              {normalizedSearch && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="font-sans text-[0.75rem] tracking-[0.12em] uppercase px-5 py-2.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-200"
+                >
+                  Clear Search
                 </button>
               )}
             </div>

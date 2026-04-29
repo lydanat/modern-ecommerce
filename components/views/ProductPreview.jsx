@@ -6,9 +6,9 @@ import ProductIcon from "@/public/icons/ProductIcon";
 import ProductCardSkeleton from "../skeletons/ProductCardSkeleton";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export default function ProductPreview() {
+export default function ProductPreview({ searchQuery = "", onClearSearch }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading]   = useState(true);
 
@@ -18,14 +18,32 @@ export default function ProductPreview() {
         .from("products")
         .select("id, product_name, product_type, price, image_urls")
         .neq("is_active", false)
-        .order("created_at", { ascending: false })
-        .limit(4);
+        .order("created_at", { ascending: false });
 
       if (!error && data) setProducts(data);
       setLoading(false);
     }
     fetchProducts();
   }, []);
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const searchedProducts = useMemo(() => {
+    if (!normalizedSearch) return products;
+
+    return products.filter((product) => {
+      const name = (product.product_name ?? "").toLowerCase();
+      const type = (product.product_type ?? "").toLowerCase();
+      const priceNumber = Number(product.price);
+      const priceValues = Number.isFinite(priceNumber)
+        ? [priceNumber.toFixed(2), String(priceNumber)]
+        : [String(product.price ?? "")];
+
+      return [name, type, ...priceValues].some((value) => value.includes(normalizedSearch));
+    });
+  }, [products, normalizedSearch]);
+
+  const visibleProducts = normalizedSearch ? searchedProducts : products.slice(0, 4);
 
   return (
     <section id="product" className="w-full bg-white py-24 px-6 sm:px-10 lg:px-16">
@@ -44,6 +62,11 @@ export default function ProductPreview() {
               Featured{" "}
               <span className="italic font-semibold">Pieces</span>
             </h2>
+            {normalizedSearch && !loading && (
+              <p className="mt-3 font-sans text-xs tracking-wide text-neutral-400">
+                {searchedProducts.length} {searchedProducts.length === 1 ? "match" : "matches"} for &quot;{searchQuery.trim()}&quot;
+              </p>
+            )}
           </div>
 
           <Link
@@ -63,25 +86,39 @@ export default function ProductPreview() {
         )}
 
         {/* Empty state */}
-        {!loading && products.length === 0 && (
+        {!loading && visibleProducts.length === 0 && (
           <div className="flex flex-col items-center justify-center py-28 gap-4 text-center">
             <ProductIcon/>
-            <p className="font-serif text-neutral-400 text-xl italic">No products available yet</p>
-            <p className="font-sans text-xs tracking-wide text-neutral-400">Check back soon, Our new products are on the way.</p>
+            <p className="font-serif text-neutral-400 text-xl italic">
+              {normalizedSearch ? "No matching products" : "No products available yet"}
+            </p>
+            <p className="font-sans text-xs tracking-wide text-neutral-400">
+              {normalizedSearch
+                ? "Try a different name, type, or price."
+                : "Check back soon, Our new products are on the way."}
+            </p>
+            {normalizedSearch && onClearSearch && (
+              <button
+                onClick={onClearSearch}
+                className="mt-2 font-sans text-[0.75rem] tracking-[0.12em] uppercase px-5 py-2.5 rounded-full border border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 transition-all duration-200"
+              >
+                Clear Search
+              </button>
+            )}
           </div>
         )}
 
         {/* Product grid */}
-        {!loading && products.length > 0 && (
+        {!loading && visibleProducts.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-            {products.map((product) => (
+            {visibleProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}
 
         {/* Bottom CTA */}
-        {!loading && products.length > 0 && (
+        {!loading && visibleProducts.length > 0 && (
           <>
             <div className="mt-16 flex justify-center sm:hidden">
               <Link

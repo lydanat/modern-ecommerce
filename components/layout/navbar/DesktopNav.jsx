@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User } from "lucide-react";
+import { Search, User } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,13 +10,23 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { navLinks, handleSmoothScroll } from "./navConfig";
 
-export default function DesktopNav({ scrolled, dark = false }) {
+export default function DesktopNav({
+  scrolled,
+  dark = false,
+  searchQuery = "",
+  onSearchChange,
+  searchPlaceholder = "Search name, type, price...",
+}) {
   const isDark    = dark || scrolled;
   const textColor = isDark ? "text-neutral-800" : "text-white";
   const hoverBg   = isDark ? "hover:bg-neutral-100" : "hover:bg-white/10";
+  const searchClasses = isDark
+    ? "border-neutral-200 bg-white/95 text-neutral-900 placeholder:text-neutral-400"
+    : "border-white/25 bg-white/10 text-neutral-900 placeholder:text-white/70";
 
   return (
     <div className="hidden lg:grid grid-cols-3 items-center w-full h-full">
@@ -62,8 +72,24 @@ export default function DesktopNav({ scrolled, dark = false }) {
         </Link>
       </div>
 
-      {/* Right: user icon */}
-      <div className="flex justify-end">
+      {/* Right: search + user icon */}
+      <div className="flex items-center justify-end gap-2">
+        {onSearchChange && (
+          <div className="relative w-52 xl:w-64">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
+            <Input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder={searchPlaceholder}
+              aria-label="Search products"
+              className={cn(
+                "h-10 rounded-full pl-9 pr-4 text-sm focus-visible:ring-2",
+                searchClasses
+              )}
+            />
+          </div>
+        )}
         <Button
           variant="ghost"
           size="icon"
