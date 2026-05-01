@@ -5,7 +5,13 @@ import { useNavScroll } from "./useNavScroll";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
-export default function Navbar({ dark = false }) {
+export default function Navbar({
+  dark = false,
+  searchQuery,
+  onSearchChange,
+  searchPlaceholder,
+  showUser = true,
+}) {
   const { scrolled } = useNavScroll(10);
 
   const isDark = dark || scrolled;
@@ -19,8 +25,22 @@ export default function Navbar({ dark = false }) {
           : "bg-transparent"
       )}
     >
-      <DesktopNav scrolled={scrolled} dark={dark} />
-      <MobileNav  scrolled={scrolled} dark={dark} />
+      <DesktopNav
+        scrolled={scrolled}
+        dark={dark}
+        searchQuery={searchQuery}
+        onSearchChange={onSearchChange}
+        searchPlaceholder={searchPlaceholder}
+        showUser={showUser}
+      />
+      <MobileNav
+        scrolled={scrolled}
+        dark={dark}
+        searchQuery={searchQuery}
+        onSearchChange={onSearchChange}
+        searchPlaceholder={searchPlaceholder}
+        showUser={showUser}
+      />
     </header>
   );
 }

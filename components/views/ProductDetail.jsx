@@ -7,6 +7,7 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer/Footer";
 import ProductDetailSkeleton from "../skeletons/ProductDetailSkeleton";
 import MessageIcon from "@/public/icons/MessageIcon";
+import { Link2, Facebook, Share2, Check } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,10 +15,16 @@ import {
 } from "@/components/ui/carousel";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ALL_SIZES } from "@/constants/sizes";
 import { ALL_COLORS } from "@/constants/colors";
 import { formatType } from '@/constants/productTypes';
 
+// helper — put this above your component
+function getProductUrl(productId) {
+  if (typeof window === "undefined") return "";
+  return `${window.location.origin}/product/${productId}`;
+}
 
 /* ── Related product card (compact horizontal scroll) ── */
 function RelatedCard({ product }) {
@@ -59,11 +66,21 @@ function RelatedCard({ product }) {
 }
 
 export default function ProductDetail({ productId }) {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearchChange(q) {
+    setSearchQuery(q);
+    const next = q?.trim() ? `/product?q=${encodeURIComponent(q.trim())}` : `/product`;
+    router.push(next);
+  }
+
   const [product,         setProduct]         = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading,         setLoading]         = useState(true);
   const [notFound,        setNotFound]        = useState(false);
   const [activeImage,     setActiveImage]     = useState(0);
+  const [copied,          setCopied]          = useState(false);
 
   useEffect(() => {
     if (!productId) return;
@@ -132,7 +149,7 @@ export default function ProductDetail({ productId }) {
 
   return (
     <>
-      <Navbar dark />
+      <Navbar dark searchQuery={searchQuery} onSearchChange={handleSearchChange} showUser={true} />
 
       <div className="min-h-screen bg-white pt-24 pb-18 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -228,7 +245,7 @@ export default function ProductDetail({ productId }) {
               </div>
 
               {/* COL 2: Product details */}
-              <div className="flex flex-col gap-7 lg:pt-2">
+              <div className="flex flex-col gap-6 lg:pt-2">
                 <p className="font-sans text-[0.72rem] tracking-[0.22em] uppercase text-neutral-400">
                   {formatType(product.product_type)}
                 </p>
@@ -308,6 +325,47 @@ export default function ProductDetail({ productId }) {
                   <p className="font-sans text-center text-xs text-neutral-400 tracking-wide">
                     Contact us to confirm size, color &amp; availability
                   </p>
+                </div>
+
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <p className="font-sans text-[0.72rem] tracking-[0.18em] uppercase text-neutral-400">
+                    Share
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        const url = getProductUrl(productId);
+                        navigator.clipboard.writeText(url);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                      className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-neutral-200 hover:border-neutral-900 transition-all duration-200"
+                      title={copied ? "Copied!" : "Copy Link"}
+                    >
+                      {copied
+                        ? <Check className="w-4 h-4 text-neutral-900" />
+                        : <Link2 className="w-4 h-4 text-neutral-500" />
+                      }
+                    </button>
+
+                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getProductUrl(productId))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-900 transition-all duration-200"
+                    >
+                      <Facebook className="w-4 h-4 text-neutral-500" />
+                    </a>
+
+                    {typeof navigator !== "undefined" && navigator.share && (
+                      <button
+                        onClick={() => navigator.share({ title: product.product_name, url: getProductUrl(productId) })}
+                        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-neutral-200 hover:border-neutral-900 transition-all duration-200"
+                        title="Share"
+                      >
+                        <Share2 className="w-4 h-4 text-neutral-500" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

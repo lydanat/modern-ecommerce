@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import { BRAND_NAME, BRAND_DESCRIPTION, CONTACT, SOCIALS, LAST_UPDATED } from "@/constants/footer"
 
 export default function Footer() {
@@ -14,7 +14,14 @@ export default function Footer() {
           <div className="flex flex-col gap-5">
             {/* Logo */}
             <span className="font-serif text-white text-2xl font-semibold tracking-[0.12em] uppercase">
-              {BRAND_NAME}
+              <Image
+                src="/assets/logowhite.png"
+                alt="Flash Of Build"
+                width={200}
+                height={60}
+                priority
+                className="object-contain"
+              />
             </span>
 
             {/* Description */}
@@ -38,17 +45,6 @@ export default function Footer() {
                 <span className="font-sans font-light text-white text-sm tracking-wide">
                   {CONTACT.phone}
                 </span>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-white/80"/>
-                <a
-                  href={`mailto:${CONTACT.email}`}
-                  className="font-sans font-light text-white text-sm tracking-wide hover:text-white/80 transition-colors duration-200"
-                >
-                  {CONTACT.email}
-                </a>
               </div>
 
               {/* Location */}

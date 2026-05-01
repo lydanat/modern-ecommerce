@@ -74,7 +74,14 @@ export default function EditProductDialog({ product, open, onOpenChange, onSucce
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto rounded-lg border-neutral-100">
+      <DialogContent className="
+        left-[50%]! top-[50%]! translate-x-[-50%]! translate-y-[-50%]!
+        w-[calc(100%-2rem)]
+        sm:w-full sm:max-w-xl
+        max-h-[88dvh] overflow-y-auto
+        rounded-lg
+        shadow-xl
+        p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="text-lg font-semibold">Edit Product</DialogTitle>
         </DialogHeader>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -13,6 +15,7 @@ export default function AdminLoginPage() {
   const [error,    setError]    = useState("");
   const [loading,  setLoading]  = useState(false);
   const [checking, setChecking] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -38,6 +41,28 @@ export default function AdminLoginPage() {
     }
 
     window.location.href = "/admin/dashboard";
+  }
+
+  function handleBack() {
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    let referrerPath = "";
+    if (document.referrer) {
+      try {
+        referrerPath = new URL(document.referrer).pathname;
+      } catch {
+        referrerPath = "";
+      }
+    }
+    if (referrerPath.startsWith("/product")) {
+      window.location.href = "/product";
+      return;
+    }
+
+    window.location.href = "/";
   }
 
   if (checking) {
@@ -66,6 +91,17 @@ export default function AdminLoginPage() {
       />
 
       <div className="relative w-full max-w-sm">
+
+        <div className="mb-8 flex justify-start">
+          <Button
+            type="button"
+            onClick={handleBack}
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-neutral-200 bg-neutral-100 px-4 font-sans text-[0.75rem] font-medium tracking-[0.12em] uppercase text-neutral-600 shadow-sm transition-colors duration-200 hover:bg-neutral-200 hover:text-neutral-900"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+        </div>
 
         {/* Brand mark */}
         <div className="text-center mb-8">
