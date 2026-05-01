@@ -49,7 +49,14 @@ export default function AdminLoginPage() {
       return;
     }
 
-    const referrerPath = document.referrer ? new URL(document.referrer).pathname : "";
+    let referrerPath = "";
+    if (document.referrer) {
+      try {
+        referrerPath = new URL(document.referrer).pathname;
+      } catch {
+        referrerPath = "";
+      }
+    }
     if (referrerPath.startsWith("/product")) {
       window.location.href = "/product";
       return;

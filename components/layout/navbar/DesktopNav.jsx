@@ -19,7 +19,8 @@ export default function DesktopNav({
   dark = false,
   searchQuery = "",
   onSearchChange,
-  searchPlaceholder = "Search name, type, price...",
+  searchPlaceholder = "Search...",
+  showUser = true,
 }) {
   const isDark    = dark || scrolled;
   const textColor = isDark ? "text-neutral-800" : "text-white";
@@ -90,17 +91,19 @@ export default function DesktopNav({
             />
           </div>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="My account"
-          asChild
-          className={cn("rounded-full transition-colors duration-300", textColor, hoverBg)}
-        >
-          <Link href="/admin">
-            <User className="h-5 w-5" />
-          </Link>
-        </Button>
+        {showUser && (
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="My account"
+            asChild
+            className={cn("rounded-full transition-colors duration-300", textColor, hoverBg)}
+          >
+            <Link href="/admin">
+              <User className="h-5 w-5" />
+            </Link>
+          </Button>
+        )}
       </div>
 
     </div>

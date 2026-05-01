@@ -14,17 +14,31 @@ export default function ProductPreview({ searchQuery = "", onClearSearch }) {
 
   useEffect(() => {
     async function fetchProducts() {
-      const { data, error } = await supabase
+      setLoading(true);
+
+      let query = supabase
         .from("products")
         .select("id, product_name, product_type, price, image_urls")
         .neq("is_active", false)
         .order("created_at", { ascending: false });
 
+      // Only expand query if user is searching
+      if (searchQuery && searchQuery.trim() !== "") {
+        // Search both name and type on the server to keep results consistent
+        const q = `%${searchQuery}%`;
+        query = query.or(`product_name.ilike.${q},product_type.ilike.${q}`);
+      } else {
+        query = query.limit(4); // keep landing page lightweight
+      }
+
+      const { data, error } = await query;
+
       if (!error && data) setProducts(data);
       setLoading(false);
     }
+
     fetchProducts();
-  }, []);
+  }, [searchQuery]);
 
   const normalizedSearch = searchQuery.trim().toLowerCase();
 

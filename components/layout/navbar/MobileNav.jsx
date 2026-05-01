@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   Sheet,
@@ -24,6 +24,7 @@ export default function MobileNav({
   searchQuery = "",
   onSearchChange,
   searchPlaceholder = "Search name, type, price...",
+  showUser = true,
 }) {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -31,8 +32,9 @@ export default function MobileNav({
   const router = useRouter();
 
   function handleSubmitSearch() {
-    const q = (onSearchChange ? searchQuery : localQuery) || "";
-    if (onSearchChange) onSearchChange(q);
+    if (!onSearchChange) return;
+    const q = searchQuery || "";
+    onSearchChange(q);
     router.push(`/product${q ? `?q=${encodeURIComponent(q)}` : ""}`);
     setSearchOpen(false);
   }
@@ -79,17 +81,19 @@ export default function MobileNav({
               ))}
             </nav>
 
-            <div className="mt-auto p-4 border-t border-neutral-100">
-              <Button
-                variant="outline"
-                asChild
-                className="w-full h-11 rounded-full border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
-              >
-                <Link href="/admin" onClick={() => setOpen(false)}>
-                  Login
-                </Link>
-              </Button>
-            </div>
+            {showUser && (
+              <div className="mt-auto p-4 border-t border-neutral-100">
+                <Button
+                  variant="outline"
+                  asChild
+                  className="w-full h-11 rounded-full border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                >
+                  <Link href="/admin" onClick={() => setOpen(false)}>
+                    Login
+                  </Link>
+                </Button>
+              </div>
+            )}
           </SheetContent>
         </Sheet>
       </div>
@@ -130,15 +134,7 @@ export default function MobileNav({
                     <DialogTitle className="font-sans text-[0.72rem] tracking-[0.2em] uppercase text-neutral-500">
                       Search Products
                     </DialogTitle>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Close search"
-                      onClick={() => setSearchOpen(false)}
-                      className="rounded-full text-neutral-700 hover:bg-neutral-100"
-                    >
-                      <X className="h-5 w-5" />
-                    </Button>
+                  
                   </div>
 
                   <div className="relative">
@@ -178,6 +174,7 @@ export default function MobileNav({
             </Dialog>
           </>
         )}
+        {/* Login is available in the sidebar (Sheet); do not show on mobile/tablet here */}
       </div>
 
     </div>

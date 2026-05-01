@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/carousel";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ALL_SIZES } from "@/constants/sizes";
 import { ALL_COLORS } from "@/constants/colors";
 import { formatType } from '@/constants/productTypes';
@@ -65,6 +66,15 @@ function RelatedCard({ product }) {
 }
 
 export default function ProductDetail({ productId }) {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearchChange(q) {
+    setSearchQuery(q);
+    const next = q?.trim() ? `/product?q=${encodeURIComponent(q.trim())}` : `/product`;
+    router.push(next);
+  }
+
   const [product,         setProduct]         = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading,         setLoading]         = useState(true);
@@ -139,7 +149,7 @@ export default function ProductDetail({ productId }) {
 
   return (
     <>
-      <Navbar dark />
+      <Navbar dark searchQuery={searchQuery} onSearchChange={handleSearchChange} showUser={true} />
 
       <div className="min-h-screen bg-white pt-24 pb-18 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">

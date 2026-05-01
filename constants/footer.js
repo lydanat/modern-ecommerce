@@ -3,7 +3,6 @@ export const BRAND_DESCRIPTION = "Premium clothing crafted for those who move wi
 
 export const CONTACT = {
   phone:    "+855 17 997 701",
-  email:    "hello@yourbrand.com",
   location: "Phnom Penh, Cambodia",
 };
 

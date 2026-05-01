@@ -10,6 +10,7 @@ export default function Navbar({
   searchQuery,
   onSearchChange,
   searchPlaceholder,
+  showUser = true,
 }) {
   const { scrolled } = useNavScroll(10);
 
@@ -30,6 +31,7 @@ export default function Navbar({
         searchQuery={searchQuery}
         onSearchChange={onSearchChange}
         searchPlaceholder={searchPlaceholder}
+        showUser={showUser}
       />
       <MobileNav
         scrolled={scrolled}
@@ -37,6 +39,7 @@ export default function Navbar({
         searchQuery={searchQuery}
         onSearchChange={onSearchChange}
         searchPlaceholder={searchPlaceholder}
+        showUser={showUser}
       />
     </header>
   );

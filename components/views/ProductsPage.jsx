@@ -72,17 +72,32 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const queryFromUrl = searchParams.get("q") ?? "";
-    setSearchQuery(queryFromUrl);
+
+    setSearchQuery(prev => (prev === queryFromUrl ? prev : queryFromUrl));
   }, [searchParams]);
 
   useEffect(() => {
-    const currentQuery = searchParams.get("q") ?? "";
-    const nextQuery = searchQuery.trim();
+    const timeoutId = setTimeout(() => {
+      const currentQuery = searchParams.get("q") ?? "";
+      const nextQuery = searchQuery.trim();
 
-    if (currentQuery === nextQuery) return;
+      if (currentQuery === nextQuery) return;
 
-    const nextUrl = nextQuery ? `${pathname}?q=${encodeURIComponent(nextQuery)}` : pathname;
-    router.replace(nextUrl, { scroll: false });
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (nextQuery) {
+        params.set("q", nextQuery);
+      } else {
+        params.delete("q");
+      }
+
+      const nextSearch = params.toString();
+      const nextUrl = nextSearch ? `${pathname}?${nextSearch}` : pathname;
+
+      router.replace(nextUrl, { scroll: false });
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
   }, [pathname, router, searchParams, searchQuery]);
 
   /* Reset to page 1 whenever filter changes — deferred to avoid sync setState warning */
