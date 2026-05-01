@@ -40,17 +40,6 @@ export default function Footer() {
                 </span>
               </div>
 
-              {/* Email */}
-              <div className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-white/80"/>
-                <a
-                  href={`mailto:${CONTACT.email}`}
-                  className="font-sans font-light text-white text-sm tracking-wide hover:text-white/80 transition-colors duration-200"
-                >
-                  {CONTACT.email}
-                </a>
-              </div>
-
               {/* Location */}
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-white/80"/>

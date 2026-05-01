@@ -1,9 +1,8 @@
 export const BRAND_NAME        = "Flash Of Build";
-export const BRAND_DESCRIPTION = "Premium clothing crafted for those who move with intention. Boxy, Oversized, Slim & Tank Top — built to last.";
+export const BRAND_DESCRIPTION = "Premium clothing crafted for those who move with intention. Boxy, Oversized, Slim & Tank Top built to last.";
 
 export const CONTACT = {
   phone:    "+855 17 997 701",
-  email:    "hello@yourbrand.com",
   location: "Phnom Penh, Cambodia",
 };
 

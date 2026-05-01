@@ -66,10 +66,7 @@ export default function HeroSlider() {
 
               {/* Eyebrow */}
               <div className="flex items-center gap-3 mb-5 animate-hero-eyebrow">
-                <span
-                  className="inline-block h-px w-8 bg-white/60 origin-left animate-hero-divider"
-                  style={{ animationDelay: "0.05s" }}
-                />
+
                 <span className="font-sans text-white/70 text-xs tracking-[0.22em] uppercase">
                   {slide.eyebrow}
                 </span>
@@ -148,16 +145,6 @@ export default function HeroSlider() {
       {/* Pagination */}
       <div className="hero-pagination absolute bottom-8 left-0 right-0 z-30" />
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 right-6 sm:right-10 lg:right-16 z-30 hidden sm:flex flex-col items-center gap-2">
-        <span
-          className="font-sans text-white/40 text-[0.65rem] tracking-[0.18em] uppercase"
-          style={{ writingMode: "vertical-rl" }}
-        >
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-linear-to-b from-transparent to-white/30" />
-      </div>
 
     </section>
   );

@@ -18,7 +18,6 @@ export default function ContactCard() {
           <div className="flex-1 max-w-xl">
 
             <div className="flex items-center gap-3 mb-6">
-              <span className="inline-block h-px w-8 bg-neutral-300" />
               <p className="font-sans text-xs tracking-[0.22em] uppercase text-neutral-400">
                 Get in Touch
               </p>
@@ -34,7 +33,7 @@ export default function ContactCard() {
 
             <p className="font-sans font-light text-neutral-500 text-base leading-relaxed tracking-wide max-w-md">
               Whether you want to know more about a specific product, need
-              help with sizing, or are ready to make a purchase — we are
+              help with sizing, or are ready to make a purchase, we are
               just one message away on Telegram.
             </p>
           </div>
