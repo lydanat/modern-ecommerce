@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 // simplified mobile search: no product fetching here to avoid complexity
 import { cn } from "@/lib/utils";
 import { navLinks, handleSmoothScroll } from "./navConfig";
+import Image from "next/image";
 
 export default function MobileNav({
   scrolled,
@@ -62,10 +63,13 @@ export default function MobileNav({
           </SheetTrigger>
 
           <SheetContent side="left" className="w-72 p-0 flex flex-col">
-            <SheetHeader className="flex flex-row items-center justify-between px-6 pt-8 pb-5 border-b border-neutral-100">
-              <SheetTitle className="text-left text-xl font-black tracking-[0.15em] uppercase text-black/70">
-                Flash of Build
-              </SheetTitle>
+            <SheetHeader className="flex flex-row items-center justify-center px-6 pt-8 pb-5 border-b border-neutral-100">
+              <Image
+                  src="/assets/logoblack2.png"
+                  alt="Picture of the author"
+                  width={180}
+                  height={180}
+                />
             </SheetHeader>
 
             <nav className="flex flex-col px-4 pt-4 gap-0.5" aria-label="Mobile navigation">
@@ -101,12 +105,16 @@ export default function MobileNav({
       {/* Center: logo */}
       <div className="flex justify-center items-center py-2 md:py-4">
         <Link href="/" className="transition-opacity duration-300 hover:opacity-80">
-          <span className={cn(
-              "font-serif text-white text-lg md:text-base font-semibold uppercase whitespace-nowrap",
-              textColor
-            )}>
-            Flash Of Build
-          </span>        
+          <div className="w-46 md:w-52">
+            <Image
+              src={scrolled || dark ? "/assets/logoblack2.png" : "/assets/logowhite.png"}
+              alt="Flash Of Build"
+              width={400}
+              height={80}
+              priority
+              className="object-contain"
+            />
+          </div>
         </Link>
       </div>
 

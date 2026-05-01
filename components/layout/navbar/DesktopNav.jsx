@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { navLinks, handleSmoothScroll } from "./navConfig";
+import Image from "next/image";
 
 export default function DesktopNav({
   scrolled,
@@ -67,9 +68,14 @@ export default function DesktopNav({
       {/* Center: logo */}
       <div className="flex justify-center">
         <Link href="/" className="transition-opacity duration-300 hover:opacity-80">
-          <span className={cn("font-serif text-white text-2xl font-semibold tracking-[0.12em] uppercase", textColor, hoverBg)}>
-            Flash Of Build
-          </span>
+          <Image
+            src={isDark ? "/assets/logoblack2.png" : "/assets/logowhite.png"}
+            alt="Flash Of Build"
+            width={200}
+            height={60}
+            priority
+            className="object-contain"
+          />
         </Link>
       </div>
 
