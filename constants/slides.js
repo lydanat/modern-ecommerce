@@ -1,7 +1,7 @@
 export const SLIDES = [
   {
     id: 1,
-    image:   "/assets/hero5.jpg",
+    image:   "/assets/hero5.JPG",
     eyebrow: "New Arrival — 2025",
     line1:   "Wear the",
     line2:   "Silence",
@@ -9,7 +9,7 @@ export const SLIDES = [
   },
   {
     id: 2,
-    image:   "/assets/hero6.jpg",
+    image:   "/assets/hero6.JPG",
     eyebrow: "Core Essentials",
     line1:   "Effortless",
     line2:   "Every Day",
