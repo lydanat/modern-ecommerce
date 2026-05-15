@@ -48,7 +48,7 @@ export default function HeroSlider() {
               fill
               priority={s.id === 1}
               quality={90}
-              className="object-cover object-center"
+              className="object-cover object-center lg:object-[center_30%]"
               sizes="100vw"
             />
           </SwiperSlide>
