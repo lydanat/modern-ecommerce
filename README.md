@@ -26,7 +26,6 @@ A modern, full-stack e-commerce storefront for **Flash of Build** — a premium 
 | Backend / DB | Supabase |
 | Icons | Lucide React |
 | Notifications | Sonner |
-| Theming | next-themes |
 | Deployment | Vercel |
 
 ---
