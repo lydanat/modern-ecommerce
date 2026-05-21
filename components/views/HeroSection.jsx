@@ -48,7 +48,11 @@ export default function HeroSlider() {
               fill
               priority={s.id === 1}
               quality={90}
-              className="object-cover object-center lg:object-[center_30%]"
+              className={
+                s.id === 3
+                  ? "object-cover object-[68%_center] md:object-[75%_center] lg:object-contain lg:bg-black"
+                  : "object-cover object-center lg:object-[center_30%]"
+              }
               sizes="100vw"
             />
           </SwiperSlide>

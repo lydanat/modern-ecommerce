@@ -14,5 +14,13 @@ export const SLIDES = [
     line1:   "Effortless",
     line2:   "Every Day",
     sub:     "Crafted for the way you actually live.",
+  },
+  {
+    id: 3,
+    image:   "/assets/hero7.PNG",
+    eyebrow: "",
+    line1:   "",
+    line2:   "",
+    sub:     "",
   }
 ];
