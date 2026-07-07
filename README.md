@@ -4,7 +4,7 @@
 
 A modern, full-stack e-commerce storefront for **Flash of Build** — a premium clothing brand based in Phnom Penh, Cambodia, specializing in Boxy, Oversized, Slim & Tank Top styles.
 
-🔗 **Live Site:** [flashofbuild.vercel.app](https://flashofbuild.vercel.app)
+🔗 **Live Site:** https://flashofbuild.studio/
 
 ---
 
